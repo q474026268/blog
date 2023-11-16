@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 项目的组ID，通常是项目组织或公司的域名倒序 -->
+    <groupId>com.ate</groupId>
+    <!-- 项目的artifact ID，通常是项目名称 -->
+    <artifactId>blog-parent</artifactId>
+    <!-- 项目版本 -->
+    <version>1.0-SNAPSHOT</version>
+    <!-- 指定了 Maven 项目的打包方式。当它的值设置为 pom 时，表示这个 Maven 项目是一个父项目或聚合项目。-->
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>blog-api</module>
+    </modules>
+
+    <!-- 父项目配置 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <!-- Spring Boot 版本 -->
+        <version>2.5.0</version>
+    </parent>
+
+    <!-- Maven 属性配置 -->
+    <properties>
+        <!-- Java 源代码使用的 Java 版本 -->
+        <maven.compiler.source>8</maven.compiler.source>
+        <!-- 编译生成的字节码的 Java 版本 -->
+        <maven.compiler.target>8</maven.compiler.target>
+        <!-- 项目编码格式 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!-- 父 POM 中提供依赖项的配置，这些配置可以被继承到子模块中 -->
+    <dependencyManagement>
+        <!-- 项目依赖 -->
+        <dependencies>
+            <!-- Spring Boot 启动器依赖，提供基本的 Spring Boot 支持 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <!-- 排除 默认使用的logback，因为下面将使用 log4j2 -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- Spring Boot 的 Log4j2 启动器，用于日志管理 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-log4j2</artifactId>
+            </dependency>
+
+            <!-- Spring Boot 的 AOP 启动器，提供面向切面编程的支持 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+            </dependency>
+            <!-- Spring Boot 的邮件服务启动器 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+            </dependency>
+
+            <!-- Spring Boot 的 Web 启动器，用于构建 Web 应用 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+            </dependency>
+
+            <!-- Spring Boot 的测试启动器，用于测试 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Spring Boot 的 Redis 启动器，用于集成 Redis -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+            </dependency>
+
+
+            <!-- Alibaba 的 Fastjson 库，用于 JSON 处理 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.76</version>
+            </dependency>
+
+            <!-- MySQL 数据库连接器 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+            </dependency>
+
+            <!-- Spring Boot 的配置处理器 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <optional>true</optional>
+            </dependency>
+
+            <!-- Apache Commons Lang3 库，提供许多实用的 Java 助手 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+            </dependency>
+
+            <!-- Commons Collections 库，提供了扩展的集合工具类 -->
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2.2</version>
+            </dependency>
+
+            <!-- MyBatis Plus 启动器，用于简化 MyBatis 的操作 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>3.4.3</version>
+            </dependency>
+
+            <!-- Lombok 库，用于简化对象的构建（如自动化 getter/setter） -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+            </dependency>
+            <!-- Joda-Time 库，用于处理日期和时间 -->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>2.10.10</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 构建配置 -->
+    <build>
+        <resources>
+            <resource>
+                <!-- 指定资源目录为src/main/java -->
+                <directory>src/main/java</directory>
+                <includes>
+                    <!-- 包含所有子目录下的XML文件 -->
+                    <include>**/*.xml</include>
+                </includes>
+                <!-- 关闭资源过滤，避免对文件内容进行替换 -->
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <!-- 指定资源目录为src/main/resources -->
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        <!-- Maven 插件 -->
+        <plugins>
+            <!-- Spring Boot Maven 插件，用于打包和运行 Spring Boot 应用 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
