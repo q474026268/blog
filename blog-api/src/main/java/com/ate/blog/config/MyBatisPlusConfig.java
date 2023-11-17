@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan("com.ate.blog.dao.mapper")
+@MapperScan("com.ate.blog.dao")
 public class MyBatisPlusConfig {
 
     //分页插件
@@ -17,5 +17,4 @@ public class MyBatisPlusConfig {
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         return interceptor;
     }
-
 }

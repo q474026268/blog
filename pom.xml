@@ -151,8 +151,6 @@
                     <!-- 包含所有子目录下的XML文件 -->
                     <include>**/*.xml</include>
                 </includes>
-                <!-- 关闭资源过滤，避免对文件内容进行替换 -->
-                <filtering>false</filtering>
             </resource>
             <resource>
                 <!-- 指定资源目录为src/main/resources -->
