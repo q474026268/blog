@@ -18,4 +18,11 @@ public interface ArticleService {
      * @return
      */
     Result hotArticle(int limit);
+
+    /**
+     * 首页-最新文章
+     * @param limit
+     * @return
+     */
+    Result newArticle(int limit);
 }
