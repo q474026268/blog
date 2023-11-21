@@ -1,5 +1,6 @@
 package com.ate.blog.service.impl;
 
+import com.ate.blog.dao.dos.Archives;
 import com.ate.blog.dao.mapper.ArticleMapper;
 import com.ate.blog.dao.pojo.Article;
 import com.ate.blog.service.ArticleService;
@@ -78,11 +79,21 @@ public class ArticleServiceImpl implements ArticleService {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.orderByDesc(Article::getCreateDate);
         queryWrapper.select(Article::getId, Article::getTitle);
-        queryWrapper.last("limit "+ limit);
+        queryWrapper.last("limit " + limit);
 
         List<Article> articles = articleMapper.selectList(queryWrapper);
         List<ArticleVo> articleVoList = copyList(articles, false, false);
         return Result.success(articleVoList);
+    }
+
+    /**
+     * 首页-文章归档
+     * @return
+     */
+    @Override
+    public Result listArchives() {
+        List<Archives> archivesList = articleMapper.listArchives();
+        return Result.success(archivesList);
     }
 
     private List<ArticleVo> copyList(List<Article> records, boolean isTag, boolean isAuthor) {
