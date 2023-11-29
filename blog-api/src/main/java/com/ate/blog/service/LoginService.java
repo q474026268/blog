@@ -1,5 +1,6 @@
 package com.ate.blog.service;
 
+import com.ate.blog.dao.pojo.SysUser;
 import com.ate.blog.vo.Result;
 import com.ate.blog.vo.params.LoginParam;
 
@@ -10,4 +11,6 @@ public interface LoginService {
      * @return
      */
     Result login(LoginParam loginParam);
+
+    SysUser checkToken(String token);
 }
