@@ -5,7 +5,6 @@ import com.ate.blog.vo.Result;
 import com.ate.blog.vo.params.LoginParam;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public interface LoginService {
     /**
      * 登录功能
