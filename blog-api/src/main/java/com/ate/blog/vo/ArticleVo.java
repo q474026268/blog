@@ -1,7 +1,5 @@
 package com.ate.blog.vo;
 
-import com.ate.blog.dao.pojo.SysUser;
-import com.ate.blog.dao.pojo.Tag;
 import lombok.Data;
 
 import java.util.List;
@@ -27,6 +25,10 @@ public class ArticleVo {
 
     private String author;
 
+    private ArticleBodyVo body;
+
     private List<TagVo> tags;
+
+    private CategoryVo category;
 
 }
