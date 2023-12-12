@@ -5,10 +5,7 @@ import com.ate.blog.dao.mapper.ArticleBodyMapper;
 import com.ate.blog.dao.mapper.ArticleMapper;
 import com.ate.blog.dao.pojo.Article;
 import com.ate.blog.dao.pojo.ArticleBody;
-import com.ate.blog.service.ArticleService;
-import com.ate.blog.service.CategoryService;
-import com.ate.blog.service.SysUserService;
-import com.ate.blog.service.TagService;
+import com.ate.blog.service.*;
 import com.ate.blog.vo.ArticleBodyVo;
 import com.ate.blog.vo.ArticleVo;
 import com.ate.blog.vo.Result;
@@ -42,6 +39,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private ThreadService threadService;
 
     @Override
     public Result listArticle(PageParams pageParams) {
@@ -166,6 +166,7 @@ public class ArticleServiceImpl implements ArticleService {
          */
         Article article = this.articleMapper.selectById(articleId);
         ArticleVo articleVo = copy(article, true, true, true, true);
+        threadService.updateArticleViewCount(articleMapper, article);
         return Result.success(articleVo);
     }
 }
