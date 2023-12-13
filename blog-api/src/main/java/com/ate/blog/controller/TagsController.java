@@ -14,11 +14,14 @@ public class TagsController {
     @Autowired
     private TagService tagService;
 
-
-
     @GetMapping("/hot")
     public Result hot(){
         int limit = 6;
         return tagService.hots(limit);
+    }
+
+    @GetMapping
+    public Result findAll(){
+        return tagService.findAll();
     }
 }
