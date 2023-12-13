@@ -91,7 +91,6 @@ public class CommentsServiceImpl implements CommentsService {
             UserVo toUserVo = this.sysUserService.findUserVoById(toUid);
             commentVo.setToUser(toUserVo);
         }
-
         return commentVo;
     }
 
