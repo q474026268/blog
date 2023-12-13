@@ -2,6 +2,7 @@ package com.ate.blog.service;
 
 import com.ate.blog.dao.pojo.Comment;
 import com.ate.blog.vo.Result;
+import com.ate.blog.vo.params.CommentParam;
 
 public interface CommentsService {
 
@@ -11,4 +12,7 @@ public interface CommentsService {
      * @return
      */
     Result commentsByArticleId(Long id);
+
+
+    Result comment(CommentParam commentParam);
 }

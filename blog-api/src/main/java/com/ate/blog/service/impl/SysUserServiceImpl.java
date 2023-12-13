@@ -7,7 +7,7 @@ import com.ate.blog.service.SysUserService;
 import com.ate.blog.vo.ErrorCode;
 import com.ate.blog.vo.Result;
 import com.ate.blog.vo.UserVo;
-import com.ate.blog.vo.params.LoginUserVo;
+import com.ate.blog.vo.LoginUserVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

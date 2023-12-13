@@ -1,4 +1,4 @@
-package com.ate.blog.vo.params;
+package com.ate.blog.vo;
 
 import lombok.Data;
 
