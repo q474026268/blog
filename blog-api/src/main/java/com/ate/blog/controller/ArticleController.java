@@ -1,6 +1,7 @@
 package com.ate.blog.controller;
 
 
+import com.ate.blog.common.aop.LogAnnotation;
 import com.ate.blog.service.ArticleService;
 import com.ate.blog.vo.Result;
 import com.ate.blog.vo.params.ArticleParam;
@@ -23,6 +24,8 @@ public class ArticleController {
      * @return
      */
     @PostMapping
+    // 加上此注释 代表要对此接口记录日志
+    @LogAnnotation(module="文章",operator="获取文章列表")
     public Result listArticle(@RequestBody PageParams pageParams) {
         Result result = articleService.listArticle(pageParams);
         return Result.success(result);
