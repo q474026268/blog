@@ -1,8 +1,8 @@
 package com.ate.blog.service;
 
 import com.ate.blog.vo.Result;
+import com.ate.blog.vo.params.ArticleParam;
 import com.ate.blog.vo.params.PageParams;
-import org.springframework.stereotype.Service;
 
 public interface ArticleService {
     /**
@@ -38,4 +38,10 @@ public interface ArticleService {
      * @return
      */
     Result findArticleById(Long articleId);
+
+    /**
+     * 文章发布服务
+     * @return
+     */
+    Result publish(ArticleParam articleParam);
 }

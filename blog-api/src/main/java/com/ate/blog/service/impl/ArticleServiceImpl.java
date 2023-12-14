@@ -3,12 +3,18 @@ package com.ate.blog.service.impl;
 import com.ate.blog.dao.dos.Archives;
 import com.ate.blog.dao.mapper.ArticleBodyMapper;
 import com.ate.blog.dao.mapper.ArticleMapper;
+import com.ate.blog.dao.mapper.ArticleTagMapper;
 import com.ate.blog.dao.pojo.Article;
 import com.ate.blog.dao.pojo.ArticleBody;
+import com.ate.blog.dao.pojo.ArticleTag;
+import com.ate.blog.dao.pojo.SysUser;
 import com.ate.blog.service.*;
+import com.ate.blog.utils.UserThreadLocal;
 import com.ate.blog.vo.ArticleBodyVo;
 import com.ate.blog.vo.ArticleVo;
 import com.ate.blog.vo.Result;
+import com.ate.blog.vo.TagVo;
+import com.ate.blog.vo.params.ArticleParam;
 import com.ate.blog.vo.params.PageParams;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -18,7 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -42,6 +50,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ThreadService threadService;
+
+    @Autowired
+    private ArticleTagMapper articleTagMapper;
 
     @Override
     public Result listArticle(PageParams pageParams) {
@@ -167,6 +178,50 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = this.articleMapper.selectById(articleId);
         ArticleVo articleVo = copy(article, true, true, true, true);
         threadService.updateArticleViewCount(articleMapper, article);
+        return Result.success(articleVo);
+    }
+
+    @Override
+    public Result publish(ArticleParam articleParam) {
+        // 此接口 要加入到登录拦截当中
+        SysUser sysUser = UserThreadLocal.get();
+
+        /**
+         * 1. 发布文章 目的 构建Article对象
+         * 2. 作者id 当前的登录用户
+         * 3. 标签 要将标签加入到关联列表当中
+         */
+        Article article = new Article();
+        article.setAuthorId(sysUser.getId());
+        article.setWeight(Article.Article_Common);
+        article.setViewCounts(0);
+        article.setTitle(articleParam.getTitle());
+        article.setSummary(articleParam.getSummary());
+        article.setCommentCounts(0);
+        article.setCreateDate(System.currentTimeMillis());
+        article.setCategoryId(articleParam.getCategory().getId());
+        this.articleMapper.insert(article);
+        List<TagVo> tags = articleParam.getTags();
+        if (tags != null) {
+            Long articleId = article.getId();
+            for (TagVo tag : tags) {
+                ArticleTag articleTag = new ArticleTag();
+                articleTag.setTagId(tag.getId());
+                articleTag.setArticleId(articleId);
+                articleTagMapper.insert(articleTag);
+            }
+        }
+        ArticleBody articleBody = new ArticleBody();
+        articleBody.setArticleId(article.getId());
+        articleBody.setContent(articleParam.getBody().getContent());
+        articleBody.setContentHtml(articleParam.getBody().getContentHtml());
+        articleBodyMapper.insert(articleBody);
+
+        article.setBodyId(articleBody.getId());
+        articleMapper.updateById(article);
+
+        ArticleVo articleVo = new ArticleVo();
+        articleVo.setId(article.getId());
         return Result.success(articleVo);
     }
 }
